@@ -15,9 +15,13 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import static wordcounts.ConsoleArguments.printUsage;
+
 import static java.util.Collections.reverseOrder;
 
 import com.google.devtools.common.options.OptionsParser;
+
+import wordcounts.ParseUtils.TopWords;
 
 
 public class Main {
@@ -49,7 +53,6 @@ public class Main {
         	String word = new String();
         	long count = 1;
         	
-            //scanner.useDelimiter("\\n");
             while (scanner.hasNext()) {
             	word = scanner.next();
             	word = word.replaceAll("[^a-zA-Z0-9]", "");
@@ -74,31 +77,18 @@ public class Main {
         
         
         //Most Frequent Words
-        Map<String, Long> sortedMap = mostFreq(map);
+        Map<String, Long> sortedMap = ParseUtils.TopWords(map, LIMIT);
         System.out.println("Most Frequent:" + sortedMap);
 			
 			
 	}
 	
-	
-	//word frequency
-	
-	private static Map<String, Long> mostFreq(Map<String, Long> map){
-		
-		return map.entrySet().stream()
-                .sorted(reverseOrder(Map.Entry.comparingByValue())).limit(LIMIT)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-		
-	}
+
 	
 	
 	
 	
-	 private static void printUsage(OptionsParser parser) {
-	        System.out.println("Usage: java -jar pullwords.jar OPTIONS");
-	        System.out.println(parser.describeOptions(Collections.<String, String>emptyMap(),
-	                OptionsParser.HelpVerbosity.LONG));
-	    }
+	
+	
 
 }

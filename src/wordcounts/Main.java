@@ -35,7 +35,7 @@ public class Main {
         }
 		
         URL myUrl = NetworkUtils.buildUri(options.bookId);
-        System.out.println(myUrl.toString());
+        System.out.println("Parsing: " + myUrl.toString());
         
         HttpURLConnection urlConnection = (HttpURLConnection) myUrl.openConnection();
         urlConnection.setConnectTimeout(5000);
@@ -72,17 +72,26 @@ public class Main {
         }
 
         
-        Map<String, Long> sortedMap = map.entrySet().stream()
-                .sorted(reverseOrder(Map.Entry.comparingByValue())).limit(LIMIT)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
         
-        
-        
-        System.out.println(sortedMap.toString());
+        //Most Frequent Words
+        Map<String, Long> sortedMap = mostFreq(map);
+        System.out.println("Most Frequent:" + sortedMap);
 			
 			
 	}
+	
+	
+	//word frequency
+	
+	private static Map<String, Long> mostFreq(Map<String, Long> map){
+		
+		return map.entrySet().stream()
+                .sorted(reverseOrder(Map.Entry.comparingByValue())).limit(LIMIT)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+		
+	}
+	
 	
 	
 	
